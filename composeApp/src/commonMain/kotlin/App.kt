@@ -11,8 +11,8 @@ import androidx.compose.ui.Modifier
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
-import kotlinproject.composeapp.generated.resources.Res
-import kotlinproject.composeapp.generated.resources.compose_multiplatform
+import overtime_calculator.composeapp.generated.resources.Res
+import overtime_calculator.composeapp.generated.resources.compose_multiplatform
 
 @Composable
 @Preview
