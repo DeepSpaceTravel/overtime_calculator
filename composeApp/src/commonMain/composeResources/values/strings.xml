@@ -1,0 +1,16 @@
+<resources>
+    <string name="hours_more_work">加班時數</string>
+    <string name="selected_date_is">選擇的日期是：</string>
+    <string name="year">年</string>
+    <string name="month">月</string>
+    <string name="day">日</string>
+
+
+
+<!--    Content Description-->
+    <string name="change_date_button">更改日期按鈕</string>
+<!--    <string name=""></string>-->
+<!--    <string name=""></string>-->
+<!--    <string name=""></string>-->
+<!--    <string name=""></string>-->
+</resources>
