@@ -15,6 +15,8 @@ import ui.pickers.ocTimePicker
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ocTimeText(title: String,
+               initialHour: Byte,
+               initalMinute: Byte,
                showTimePicker: Boolean,
                confirmAction: () -> Unit,
                cancelAction: () -> Unit,
@@ -22,37 +24,38 @@ fun ocTimeText(title: String,
                timePickerState: TimePickerState,
                modifier: Modifier = Modifier) {
 
+    var hour by remember { mutableStateOf(initialHour.toString()) }
+    var minute by remember { mutableStateOf(initalMinute.toString()) }
+
     //    Check the length of Hour and Minute
-    if (timePickerState.hour.toString().length == 1){
-      StringBuilder()
-          .append("0")
-          .append(timePickerState.hour.toString())
-          .toString()
-    }
-    if (timePickerState.minute.toString().length == 1){
-        StringBuilder()
+    if (hour.length == 1) {
+        hour = StringBuilder()
             .append("0")
-            .append(timePickerState.minute.toString())
+            .append(hour)
+            .toString()
+    }
+    if (minute.length == 1) {
+        minute = StringBuilder()
+            .append("0")
+            .append(minute)
             .toString()
     }
 
     Text(
-        text = title,
-        modifier = modifier,
-    )
-    Text(
         text = buildAnnotatedString {
-            append(timePickerState.hour.toString())
+            append(title)
+            append(hour)
             append(":")
-            append(timePickerState.minute.toString())
+            append(minute)
         },
         modifier = modifier
     )
 
     ocTimePicker(showTimePicker = showTimePicker,
-        timePickerState = timePickerState,
-        confirmAction = confirmAction,
+        confirmAction = {confirmAction()
+            hour = timePickerState.hour.toString()
+            minute = timePickerState.minute.toString()},
         cancelAction = cancelAction,
-        dismissAction = dismissAction
-    )
+        dismissAction = dismissAction,
+        timePickerState = timePickerState)
 }

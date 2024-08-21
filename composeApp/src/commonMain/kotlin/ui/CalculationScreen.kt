@@ -19,10 +19,6 @@ import androidx.compose.material3.rememberTimePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -38,9 +34,7 @@ import overtime_calculator.composeapp.generated.resources.year
 import ui.components.ocDateText
 import ui.components.ocIconButton
 import ui.components.ocTimeText
-import ui.pickers.ocDatePicker
 import ui.pickers.ocMealCounter
-import ui.pickers.ocTimePicker
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -70,13 +64,25 @@ fun CalculationScreen(calculationViewModel: CalculationViewModel = CalculationVi
             // 上班時間
             ocTimeText(
                 title = "上班時間：",
-                timePickerState = checkInTimePickerState,
-                confirmAction = {calculationViewModel.closeDatePicker()},
-                cancelAction = {calculationViewModel.closeDatePicker()},
-                dismissAction = {calculationViewModel.closeDatePicker()},
-                showTimePicker = calculationUiState.showTimePicker,
-                )
+                initialHour = calculationUiState.checkInTime.hour,
+                initalMinute = calculationUiState.checkInTime.minute,
+                showTimePicker = calculationUiState.showCheckInTimePicker,
+                confirmAction = {calculationViewModel.closeTimePicker()},
+                cancelAction = {calculationViewModel.closeTimePicker()},
+                dismissAction = {calculationViewModel.closeTimePicker()},
+                timePickerState = checkInTimePickerState
+            )
             // 下班時間
+            ocTimeText(
+                title = "下班時間：",
+                initialHour = calculationUiState.checkOutTime.hour,
+                initalMinute = calculationUiState.checkOutTime.minute,
+                showTimePicker = calculationUiState.showCheckOutTimePicker,
+                confirmAction = {calculationViewModel.closeTimePicker()},
+                cancelAction = {calculationViewModel.closeTimePicker()},
+                dismissAction = {calculationViewModel.closeTimePicker()},
+                timePickerState = checkOutTimePickerState
+            )
 
             //餐數
             ocMealCounter(
@@ -97,14 +103,24 @@ fun CalculationScreen(calculationViewModel: CalculationViewModel = CalculationVi
 
 //        Icon column
         Column {
+            //Date Picker
             ocIconButton(Icons.Default.Edit,
                 onClickAction = {calculationViewModel.showDatePicker()},
                 contentDescription = "//--Place Holder--//")
-            repeat(2) {
-                ocIconButton(Icons.Default.Edit,
-                    onClickAction = {calculationViewModel.showTimePicker()},
-                    contentDescription = "//--Place Holder--//")
-            }
+            //Check in Time Picker
+            ocIconButton(Icons.Default.Edit,
+            onClickAction = {calculationViewModel.showCheckInTimePicker()},
+            contentDescription = "//--Place Holder--//")
+
+            //Check out Time Picker
+            ocIconButton(Icons.Default.Edit,
+                onClickAction = {calculationViewModel.showCheckOutTimePicker()},
+                contentDescription = "//--Place Holder--//")
+
+            //Meal Picker
+//            ocIconButton(Icons.Default.Edit,
+//                onClickAction = { TODO("Implement Meal Counter") },
+//                contentDescription = "//--Place Holder--//")
             Text(
                 text = "Hi"
             )
@@ -112,35 +128,3 @@ fun CalculationScreen(calculationViewModel: CalculationViewModel = CalculationVi
     }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-@Composable
-fun InputTextField(
-    label: StringResource,
-    onValueChanged: (String) -> Unit,
-    value: String,
-    modifier: Modifier,
-    keyboardOptions: KeyboardOptions,
-    enabledOrNot: Boolean,
-) {
-    OutlinedTextField(
-        value = value,
-        onValueChange = onValueChanged,
-        label = { Text(stringResource(label))},
-        modifier = modifier,
-        keyboardOptions = keyboardOptions,
-        enabled = enabledOrNot,
-    )
-}
