@@ -35,6 +35,7 @@ import overtime_calculator.composeapp.generated.resources.hours_more_work
 import overtime_calculator.composeapp.generated.resources.month
 import overtime_calculator.composeapp.generated.resources.selected_date_is
 import overtime_calculator.composeapp.generated.resources.year
+import ui.components.ocDateText
 import ui.components.ocIconButton
 import ui.pickers.ocDatePicker
 import ui.pickers.ocMealCounter
@@ -45,6 +46,9 @@ import ui.pickers.ocTimePicker
 @Composable
 fun CalculationScreen(calculationViewModel: CalculationViewModel = CalculationViewModel()) {
     val calculationUiState by calculationViewModel.uiState.collectAsState()
+    val datePickerState = rememberDatePickerState()
+    val checkInTimePickerState = rememberTimePickerState()
+    val checkOutTimePickerState = rememberTimePickerState()
 
     val rowArrangement =  Arrangement.SpaceEvenly
 
@@ -53,13 +57,13 @@ fun CalculationScreen(calculationViewModel: CalculationViewModel = CalculationVi
     ){
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
 
-            //       DatePicker starts
-            ocDatePicker(rowArrangement = rowArrangement,
-                onClickAction = {calculationViewModel.closeDatePicker()
-
-                                },
-                onDismissButtonAction = {calculationViewModel.closeDatePicker()},
-                onDismissRequestAction = {calculationViewModel.closeDatePicker()},
+            //DatePicker starts
+            ocDateText(confirmAction = {calculationViewModel.closeDatePicker()
+//                                       calculationViewModel.saveDailyInfo(datePickerState, timePickerState)
+                                       },
+                cancelAction = {calculationViewModel.closeDatePicker()},
+                dismissAction = {calculationViewModel.closeDatePicker()},
+                datePickerState = datePickerState,
                 showDatePicker = calculationUiState.showDatePicker)
 
             // 上班時間
@@ -99,6 +103,11 @@ fun CalculationScreen(calculationViewModel: CalculationViewModel = CalculationVi
             ocIconButton(Icons.Default.Edit,
                 onClickAction = {calculationViewModel.showDatePicker()},
                 contentDescription = "//--Place Holder--//")
+            repeat(2) {
+                ocIconButton(Icons.Default.Edit,
+                    onClickAction = {calculationViewModel.showTimePicker()},
+                    contentDescription = "//--Place Holder--//")
+            }
             Text(
                 text = "Hi"
             )
