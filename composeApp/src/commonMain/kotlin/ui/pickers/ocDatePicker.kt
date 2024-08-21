@@ -2,16 +2,10 @@ package ui.pickers
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.width
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Edit
 import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DatePickerDialog
+import androidx.compose.material3.DatePickerState
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.rememberDatePickerState
@@ -23,7 +17,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.buildAnnotatedString
-import androidx.compose.ui.unit.dp
 import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDate
@@ -36,10 +29,14 @@ import overtime_calculator.composeapp.generated.resources.selected_date_is
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ocDatePicker(rowArrangement: Arrangement.Horizontal){
+fun ocDatePicker(rowArrangement: Arrangement.Horizontal,
+                 showDatePicker: Boolean,
+                 onDismissRequestAction: () -> Unit,
+                 onClickAction: () -> Unit,
+                 onDismissButtonAction: () -> Unit){
+    val datePickerState = rememberDatePickerState()
 
-    Row(horizontalArrangement = rowArrangement) {
-        var showEditDate: Boolean by remember { mutableStateOf(false) }
+    Row(horizontalArrangement = rowArrangement,) {
         var yearMonthDay: LocalDate by remember {
             mutableStateOf(
                 Clock.System.now().toLocalDateTime(
@@ -47,7 +44,6 @@ fun ocDatePicker(rowArrangement: Arrangement.Horizontal){
                 ).date
             )
         }
-        val datePickerState = rememberDatePickerState()
 
         Text(
             text = buildAnnotatedString {
@@ -60,24 +56,15 @@ fun ocDatePicker(rowArrangement: Arrangement.Horizontal){
             },
             modifier = Modifier.align(Alignment.CenterVertically),
         )
-        IconButton(
-            onClick = { showEditDate = true },
-            modifier = Modifier.align(Alignment.CenterVertically),
-        ) {
-            Icon(
-                Icons.Rounded.Edit,
-                contentDescription = Res.string.change_date_button.toString()
-            )
-        }
 
         //Show DatePickerDialog or not
-        if (showEditDate == true) {
+        if (showDatePicker) {
             DatePickerDialog(
-                onDismissRequest = { showEditDate = false },
+                onDismissRequest = onDismissRequestAction,
                 confirmButton = {
                     TextButton(
                         onClick = {
-                            showEditDate = false
+                            onClickAction()
                             val date = datePickerState.selectedDateMillis
                             if (date != null) {
                                 yearMonthDay =
@@ -89,9 +76,7 @@ fun ocDatePicker(rowArrangement: Arrangement.Horizontal){
                 },
                 dismissButton = {
                     TextButton(
-                        onClick = {
-                            showEditDate = false
-                        }
+                        onClick = onDismissButtonAction
                     ) { Text("Cancel") }
                 }
             )
