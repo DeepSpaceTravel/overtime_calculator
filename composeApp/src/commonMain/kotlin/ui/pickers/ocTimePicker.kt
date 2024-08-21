@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Edit
+import androidx.compose.material3.DatePickerState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -20,6 +21,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TimePicker
+import androidx.compose.material3.TimePickerState
 import androidx.compose.material3.rememberTimePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -39,72 +41,20 @@ import overtime_calculator.composeapp.generated.resources.change_date_button
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ocTimePicker(
-    rowArrangement: Arrangement.HorizontalOrVertical,
-    title: String,
-    hour: Byte,
-    minute: Byte) {
-
-    var showTimePicker: Boolean by remember { mutableStateOf( false) }
-    val timePickerState = rememberTimePickerState()
-    var hour by remember { mutableStateOf(hour.toString()) }
-    var minute by remember { mutableStateOf(minute.toString()) }
-
-//    Check the length of Hour and Minute
-    if (hour.length == 1){
-        hour = StringBuilder()
-            .append("0")
-            .append(hour)
-            .toString()
-    }
-    if (minute.length == 1){
-        minute = StringBuilder()
-            .append("0")
-            .append(minute)
-            .toString()
-    }
-
-    //Composable starts here
-    Row(horizontalArrangement = rowArrangement) {
-        val modifier = Modifier.align(Alignment.CenterVertically)
-
-        Text(
-            text = title,
-            modifier = modifier,
-        )
-        Text(
-            text = buildAnnotatedString {
-                append(hour)
-                append(":")
-                append(minute)
-            },
-            modifier = modifier
-        )
-        IconButton(
-            onClick = { showTimePicker = true },
-            modifier = modifier,
-        ) {
-            Icon(
-                Icons.Rounded.Edit,
-                contentDescription = Res.string.change_date_button.toString()
-            )
-        }
-    }
+    showTimePicker: Boolean,
+    confirmAction: () -> Unit,
+    cancelAction: () -> Unit,
+    dismissAction: () -> Unit,
+    timePickerState: TimePickerState) {
 
     if (showTimePicker){
-
         TimePickerDialog(
-            onDismissRequest = { showTimePicker = false },
+            onDismissRequest = dismissAction,
             confirmButton = { TextButton(
-                onClick = {
-                    showTimePicker = false
-                    hour = timePickerState.hour.toString()
-                    minute = timePickerState.minute.toString()
-                }
+                onClick = confirmAction
             ) { Text("OK") } },
             dismissButton = { TextButton(
-                onClick = {
-                    showTimePicker = false
-                }
+                onClick = cancelAction
             ) { Text("Cancel") } }
         )
         {

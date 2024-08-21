@@ -37,6 +37,7 @@ import overtime_calculator.composeapp.generated.resources.selected_date_is
 import overtime_calculator.composeapp.generated.resources.year
 import ui.components.ocDateText
 import ui.components.ocIconButton
+import ui.components.ocTimeText
 import ui.pickers.ocDatePicker
 import ui.pickers.ocMealCounter
 import ui.pickers.ocTimePicker
@@ -67,19 +68,15 @@ fun CalculationScreen(calculationViewModel: CalculationViewModel = CalculationVi
                 showDatePicker = calculationUiState.showDatePicker)
 
             // 上班時間
-            ocTimePicker(
-                rowArrangement = rowArrangement,
+            ocTimeText(
                 title = "上班時間：",
-                hour = calculationUiState.checkInTime.hour,
-                minute = calculationUiState.checkInTime.minute
-            )
+                timePickerState = checkInTimePickerState,
+                confirmAction = {calculationViewModel.closeDatePicker()},
+                cancelAction = {calculationViewModel.closeDatePicker()},
+                dismissAction = {calculationViewModel.closeDatePicker()},
+                showTimePicker = calculationUiState.showTimePicker,
+                )
             // 下班時間
-            ocTimePicker(
-                rowArrangement = rowArrangement,
-                title = "下班時間：",
-                hour = calculationUiState.checkOutTime.hour,
-                minute = calculationUiState.checkOutTime.minute
-            )
 
             //餐數
             ocMealCounter(
