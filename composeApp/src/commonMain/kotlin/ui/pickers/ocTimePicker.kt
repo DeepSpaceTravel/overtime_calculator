@@ -29,7 +29,7 @@ import overtime_calculator.composeapp.generated.resources.change_date_button
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ocTimePicker(
+fun OcTimePicker(
     showTimePicker: Boolean,
     confirmAction: () -> Unit,
     cancelAction: () -> Unit,

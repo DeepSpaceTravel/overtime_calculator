@@ -3,6 +3,6 @@ package ui.components
 import androidx.compose.runtime.Composable
 
 @Composable
-fun ocMealText() {
+fun OcMealText() {
 
 }

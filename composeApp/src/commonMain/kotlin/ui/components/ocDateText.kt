@@ -18,7 +18,6 @@ import kotlinx.datetime.toLocalDateTime
 import org.jetbrains.compose.resources.stringResource
 import overtime_calculator.composeapp.generated.resources.Res
 import overtime_calculator.composeapp.generated.resources.selected_date_is
-import ui.pickers.ocDatePicker
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

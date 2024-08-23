@@ -3,6 +3,7 @@ package ui
 import androidx.compose.material3.DatePickerState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.TimePickerState
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -32,20 +33,25 @@ class CalculationViewModel: ViewModel (){
 //        println(_uiState.value.ocDate.size)
     }
 
-    fun showTimePicker() {
-        _uiState.update { it.copy(showTimePicker = true) }
+
+    fun showCheckInTimePicker() {
+        _uiState.update { it.copy(showCheckInTimePicker = true) }
     }
 
     fun selectCheckInTime(timePickerState: TimePickerState) {
-        _uiState.update { it.copy(checkInTime = HourAndMinute(hour = timePickerState.hour.toByte(), minute = timePickerState.minute.toByte()))}
+        _uiState.update { it.copy(checkInTime = HourAndMinute(hour = timePickerState.hour.toByte(), minute = timePickerState.minute.toByte())) }
     }
 
-    fun selectCheckOutTime() {
+    fun showCheckOutTimePicker() {
+        _uiState.update { it.copy(showCheckOutTimePicker = true) }
+    }
 
+    fun selectCheckOutTime(timePickerState: TimePickerState) {
+        _uiState.update { it.copy(checkOutTime = HourAndMinute(hour = timePickerState.hour.toByte(), minute = timePickerState.minute.toByte())) }
     }
 
     fun closeTimePicker() {
-        _uiState.update { it.copy(showTimePicker = false) }
+        _uiState.update { it.copy(showCheckInTimePicker = false, showCheckOutTimePicker = false) }
     }
 
 

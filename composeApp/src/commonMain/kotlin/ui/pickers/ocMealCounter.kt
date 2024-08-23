@@ -19,7 +19,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 
 @Composable
-fun ocMealCounter(rowArrangement: Arrangement.Horizontal,
+fun OcMealCounter(rowArrangement: Arrangement.Horizontal,
                   mealCount: Byte) {
     var showMealCounter: Boolean by remember { mutableStateOf(false) }
     var mealCount: Byte by remember { mutableStateOf(mealCount) }

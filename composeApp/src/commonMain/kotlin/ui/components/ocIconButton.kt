@@ -7,11 +7,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 
 @Composable
-fun ocIconButton(icon: ImageVector,
+fun OcIconButton(icon: ImageVector,
                  onClickAction: () -> Unit,
                  contentDescription: String,
-                 content: @Composable () -> Unit,
-                 modifier: Modifier = Modifier) {
+                 modifier: Modifier = Modifier,
+                 content: @Composable (() -> Unit)? = null) {
     IconButton(onClick = onClickAction,
         modifier = modifier){
         Icon(
@@ -19,5 +19,7 @@ fun ocIconButton(icon: ImageVector,
             contentDescription = contentDescription
         )
     }
-    content()
+    if (content != null) {
+        content()
+    }
 }

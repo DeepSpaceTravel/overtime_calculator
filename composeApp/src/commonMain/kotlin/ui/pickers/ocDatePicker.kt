@@ -25,7 +25,7 @@ import overtime_calculator.composeapp.generated.resources.selected_date_is
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ocDatePicker(showDatePicker: Boolean,
+fun OcDatePicker(showDatePicker: Boolean,
                  onDismissRequestAction: () -> Unit,
                  onClickAction: () -> Unit,
                  onDismissButtonAction: () -> Unit,

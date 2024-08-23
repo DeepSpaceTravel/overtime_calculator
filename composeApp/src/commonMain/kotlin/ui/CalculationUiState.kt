@@ -1,10 +1,15 @@
 package ui
 
+import androidx.compose.material3.DatePickerState
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.TimePickerState
 import kotlinx.datetime.Clock
+import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 
+@OptIn(ExperimentalMaterial3Api::class)
 data class CalculationUiState(
     val ocDate: LocalDate = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date,
     val checkInTime: HourAndMinute = HourAndMinute(hour = 8, minute = 0),
@@ -12,7 +17,8 @@ data class CalculationUiState(
     val mealCount: Byte = 0,
     val multiplayer: Float = 1.5f,
     val showDatePicker: Boolean = false,
-    val showTimePicker: Boolean = false
+    val showCheckInTimePicker: Boolean = false,
+    val showCheckOutTimePicker: Boolean = false,
 )
 
 data class HourAndMinute(

@@ -48,7 +48,8 @@ fun App() {
                     }
                 }
 
-                CalculationScreen()
+                val viewModel = CalculationViewModel()
+                CalculationScreen(viewModel)
             }
         }
     }
