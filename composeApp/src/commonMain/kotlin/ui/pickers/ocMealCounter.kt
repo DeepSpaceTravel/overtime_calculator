@@ -60,6 +60,5 @@ fun ocMealCounter(rowArrangement: Arrangement.Horizontal,
                 }
             )
         }
-
     }
 }

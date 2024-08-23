@@ -1,6 +1,5 @@
 package ui.components
 
-import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
@@ -11,6 +10,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 fun ocIconButton(icon: ImageVector,
                  onClickAction: () -> Unit,
                  contentDescription: String,
+                 content: @Composable () -> Unit,
                  modifier: Modifier = Modifier) {
     IconButton(onClick = onClickAction,
         modifier = modifier){
@@ -19,4 +19,5 @@ fun ocIconButton(icon: ImageVector,
             contentDescription = contentDescription
         )
     }
+    content()
 }

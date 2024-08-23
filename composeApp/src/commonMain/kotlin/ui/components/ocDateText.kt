@@ -3,7 +3,6 @@ package ui.components
 import androidx.compose.material3.DatePickerState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
-import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -23,45 +22,18 @@ import ui.pickers.ocDatePicker
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ocDateText(showDatePicker: Boolean,
-               confirmAction: () -> Unit,
-               cancelAction: () -> Unit,
-               dismissAction: () -> Unit,
-               datePickerState: DatePickerState,
+fun ocDateText(selectedDate: LocalDate,
                modifier: Modifier = Modifier) {
-
-    var yearMonthDay: LocalDate by remember {
-        mutableStateOf(
-            Clock.System.now().toLocalDateTime(
-                TimeZone.currentSystemDefault()
-            ).date
-        )
-    }
 
     //Main text content
     Text(
         text = buildAnnotatedString {
             append((stringResource(Res.string.selected_date_is)))
-            append(yearMonthDay.toString())
+            append(selectedDate.toString())
             append(" (")
-            append(yearMonthDay.dayOfWeek.toString().take(3))
+            append(selectedDate.dayOfWeek.toString().take(3))
             append(")")
         },
         modifier = modifier
     )
-
-    //Parsing output text
-    val date = datePickerState.selectedDateMillis
-    if (date != null) {
-        yearMonthDay =
-            Instant.fromEpochMilliseconds(date)
-                .toLocalDateTime(TimeZone.currentSystemDefault()).date
-    }
-
-    //Invoke DatePicker
-    ocDatePicker(datePickerState = datePickerState,
-        showDatePicker = showDatePicker,
-        onClickAction = confirmAction,
-        onDismissButtonAction = cancelAction,
-        onDismissRequestAction = dismissAction)
 }

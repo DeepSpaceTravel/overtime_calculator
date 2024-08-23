@@ -35,6 +35,7 @@ import ui.components.ocDateText
 import ui.components.ocIconButton
 import ui.components.ocTimeText
 import ui.pickers.ocMealCounter
+import ui.pickers.ocTimePicker
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -53,35 +54,19 @@ fun CalculationScreen(calculationViewModel: CalculationViewModel = CalculationVi
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
 
             //DatePicker starts
-            ocDateText(confirmAction = {calculationViewModel.closeDatePicker()
-//                                       calculationViewModel.saveDailyInfo(datePickerState, timePickerState)
-                                       },
-                cancelAction = {calculationViewModel.closeDatePicker()},
-                dismissAction = {calculationViewModel.closeDatePicker()},
-                datePickerState = datePickerState,
-                showDatePicker = calculationUiState.showDatePicker)
+            ocDateText(selectedDate = calculationUiState.ocDate)
+
+            println("UI State is; ${calculationUiState}")
 
             // 上班時間
             ocTimeText(
                 title = "上班時間：",
-                initialHour = calculationUiState.checkInTime.hour,
-                initalMinute = calculationUiState.checkInTime.minute,
-                showTimePicker = calculationUiState.showCheckInTimePicker,
-                confirmAction = {calculationViewModel.closeTimePicker()},
-                cancelAction = {calculationViewModel.closeTimePicker()},
-                dismissAction = {calculationViewModel.closeTimePicker()},
-                timePickerState = checkInTimePickerState
+                hourAndMinute = HourAndMinute(hour = calculationUiState.checkInTime.hour, minute = calculationUiState.checkInTime.minute)
             )
             // 下班時間
             ocTimeText(
                 title = "下班時間：",
-                initialHour = calculationUiState.checkOutTime.hour,
-                initalMinute = calculationUiState.checkOutTime.minute,
-                showTimePicker = calculationUiState.showCheckOutTimePicker,
-                confirmAction = {calculationViewModel.closeTimePicker()},
-                cancelAction = {calculationViewModel.closeTimePicker()},
-                dismissAction = {calculationViewModel.closeTimePicker()},
-                timePickerState = checkOutTimePickerState
+                hourAndMinute = HourAndMinute(hour = calculationUiState.checkOutTime.hour, minute = calculationUiState.checkOutTime.minute)
             )
 
             //餐數
@@ -104,26 +89,32 @@ fun CalculationScreen(calculationViewModel: CalculationViewModel = CalculationVi
 //        Icon column
         Column {
             //Date Picker
-            ocIconButton(Icons.Default.Edit,
-                onClickAction = {calculationViewModel.showDatePicker()},
-                contentDescription = "//--Place Holder--//")
+//            ocIconButton(Icons.Default.Edit,
+//                onClickAction = {calculationViewModel.showDatePicker()},
+//                contentDescription = "//--Place Holder--//")
             //Check in Time Picker
             ocIconButton(Icons.Default.Edit,
-            onClickAction = {calculationViewModel.showCheckInTimePicker()},
-            contentDescription = "//--Place Holder--//")
+                onClickAction = {calculationViewModel.showTimePicker()},
+                contentDescription = "//--Place Holder--//",
+                content = {
+                    ocTimePicker(
+                        showTimePicker = calculationUiState.showTimePicker,
+                        cancelAction = {calculationViewModel.closeTimePicker()},
+                        confirmAction = {calculationViewModel.selectCheckInTime(timePickerState = checkInTimePickerState)
+                            calculationViewModel.closeTimePicker() },
+                        dismissAction = {calculationViewModel.closeTimePicker()},
+                        timePickerState = checkInTimePickerState) })
 
             //Check out Time Picker
-            ocIconButton(Icons.Default.Edit,
-                onClickAction = {calculationViewModel.showCheckOutTimePicker()},
-                contentDescription = "//--Place Holder--//")
+//            ocIconButton(Icons.Default.Edit,
+//                onClickAction = {calculationViewModel.showCheckOutTimePicker()},
+//                contentDescription = "//--Place Holder--//")
 
             //Meal Picker
 //            ocIconButton(Icons.Default.Edit,
 //                onClickAction = { TODO("Implement Meal Counter") },
 //                contentDescription = "//--Place Holder--//")
-            Text(
-                text = "Hi"
-            )
+
         }
     }
 }

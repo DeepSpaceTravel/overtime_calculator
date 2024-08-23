@@ -9,16 +9,17 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 
-class CalculationViewModel: ViewModel(){
+@OptIn(ExperimentalMaterial3Api::class)
+class CalculationViewModel: ViewModel (){
     private val _uiState = MutableStateFlow(CalculationUiState())
     val uiState: StateFlow<CalculationUiState> = _uiState.asStateFlow()
 
     fun showDatePicker() {
-        _uiState.update { CalculationUiState(showDatePicker = true) }
+        _uiState.update { it.copy(showDatePicker = true) }
     }
 
     fun closeDatePicker() {
-        _uiState.update { CalculationUiState(showDatePicker = false) }
+        _uiState.update { it.copy(showDatePicker = false) }
     }
 
     @OptIn(ExperimentalMaterial3Api::class)
@@ -31,17 +32,20 @@ class CalculationViewModel: ViewModel(){
 //        println(_uiState.value.ocDate.size)
     }
 
-    fun showCheckInTimePicker() {
-        _uiState.update { CalculationUiState(showCheckInTimePicker = true) }
+    fun showTimePicker() {
+        _uiState.update { it.copy(showTimePicker = true) }
     }
 
-    fun showCheckOutTimePicker() {
-        _uiState.update { CalculationUiState(showCheckOutTimePicker = true) }
+    fun selectCheckInTime(timePickerState: TimePickerState) {
+        _uiState.update { it.copy(checkInTime = HourAndMinute(hour = timePickerState.hour.toByte(), minute = timePickerState.minute.toByte()))}
+    }
+
+    fun selectCheckOutTime() {
+
     }
 
     fun closeTimePicker() {
-        _uiState.update { CalculationUiState(showCheckInTimePicker = false,
-            showCheckOutTimePicker = false) }
+        _uiState.update { it.copy(showTimePicker = false) }
     }
 
 
