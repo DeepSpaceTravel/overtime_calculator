@@ -1,7 +1,6 @@
 package ui.pickers
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
@@ -24,8 +23,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
-import overtime_calculator.composeapp.generated.resources.Res
-import overtime_calculator.composeapp.generated.resources.change_date_button
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

@@ -1,11 +1,17 @@
 package ui
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material.icons.rounded.Edit
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.material3.rememberTimePickerState
@@ -13,10 +19,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
-import ui.components.OcIconButton
+import ui.components.OcMealText
 import ui.components.OcTimeText
 import ui.components.ocDateText
-import ui.pickers.OcMealCounter
+import ui.pickers.OcDatePicker
+import ui.pickers.OcIconButton
 import ui.pickers.OcTimePicker
 
 
@@ -50,8 +57,7 @@ fun CalculationScreen(calculationViewModel: CalculationViewModel) {
             )
 
             //餐數
-            OcMealCounter(
-                rowArrangement = rowArrangement,
+            OcMealText(
                 mealCount = calculationUiState.mealCount
             )
 
@@ -69,14 +75,23 @@ fun CalculationScreen(calculationViewModel: CalculationViewModel) {
 //        Icon column
         Column {
             //Date Picker
-//            ocIconButton(Icons.Default.Edit,
-//                onClickAction = {calculationViewModel.showDatePicker()},
-//                contentDescription = "//--Place Holder--//")
+            OcIconButton(Icons.Default.Edit,
+                onClickAction = {calculationViewModel.showDatePicker()},
+                contentDescription = "//--Place Holder--//"
+            ){
+                OcDatePicker(
+                    showDatePicker = calculationUiState.showDatePicker,
+                    cancelAction = {calculationViewModel.closeDatePicker()},
+                    confirmAction = {calculationViewModel.selectDate(datePickerState = datePickerState)
+                        calculationViewModel.closeDatePicker()},
+                    dismissAction = {calculationViewModel.closeDatePicker()},
+                    datePickerState = datePickerState)
+            }
 
             //Check in Time Picker
             OcIconButton(Icons.Default.Edit,
                 onClickAction = {calculationViewModel.showCheckInTimePicker()},
-                contentDescription = "//--Place Holder--//",
+                contentDescription = "//--Place Holder--//"
             ){
                 OcTimePicker(
                     showTimePicker = calculationUiState.showCheckInTimePicker,
@@ -91,7 +106,7 @@ fun CalculationScreen(calculationViewModel: CalculationViewModel) {
             //Check out Time Picker
             OcIconButton(Icons.Default.Edit,
                 onClickAction = {calculationViewModel.showCheckOutTimePicker()},
-                contentDescription = "//--Place Holder--//",
+                contentDescription = "//--Place Holder--//"
             ){
                 OcTimePicker(
                     showTimePicker = calculationUiState.showCheckOutTimePicker,
@@ -104,9 +119,27 @@ fun CalculationScreen(calculationViewModel: CalculationViewModel) {
             }
 
             //Meal Picker
-//            ocIconButton(Icons.Default.Edit,
-//                onClickAction = { TODO("Implement Meal Counter") },
-//                contentDescription = "//--Place Holder--//")
+            Box {
+                IconButton(onClick = { calculationViewModel.showMealPicker() }) {
+                    Icon(Icons.Rounded.Edit,
+                        contentDescription = "//Place Holder//")
+                }
+                DropdownMenu(
+                    onDismissRequest = { calculationViewModel.closeMealPicker()},
+                    expanded = calculationUiState.showMealPicker,
+                    content = {
+                        (0..2).forEach {
+                            DropdownMenuItem(
+                                text = { Text(text = "$it") },
+                                onClick = {
+                                    calculationViewModel.selectMealCount(it.toByte())
+                                    calculationViewModel.closeMealPicker()
+                                }
+                            )
+                        }
+                    }
+                )
+            }
 
         }
     }

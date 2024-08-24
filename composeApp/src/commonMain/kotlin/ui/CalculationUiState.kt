@@ -1,10 +1,7 @@
 package ui
 
-import androidx.compose.material3.DatePickerState
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.TimePickerState
 import kotlinx.datetime.Clock
-import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
@@ -19,6 +16,7 @@ data class CalculationUiState(
     val showDatePicker: Boolean = false,
     val showCheckInTimePicker: Boolean = false,
     val showCheckOutTimePicker: Boolean = false,
+    val showMealPicker: Boolean = false
 )
 
 data class HourAndMinute(
