@@ -7,6 +7,7 @@ plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsCompose)
     alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.sqldelight)
 }
 
 kotlin {
@@ -14,7 +15,9 @@ kotlin {
         @OptIn(ExperimentalKotlinGradlePluginApi::class)
         compilerOptions {
             jvmTarget.set(JvmTarget.JVM_11)
+//            apiVersion.set(org.jetbrains.kotlin.gradle.dsl.KotlinVersion.KOTLIN_2_0) //Self added
         }
+
     }
     
     listOf(
@@ -24,7 +27,7 @@ kotlin {
     ).forEach { iosTarget ->
         iosTarget.binaries.framework {
             baseName = "ComposeApp"
-            isStatic = true
+            isStatic = false
         }
     }
     
@@ -34,6 +37,7 @@ kotlin {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
             implementation(libs.androidx.splashscreen)
+            implementation(libs.android.driver)
         }
 
         commonMain.dependencies {
@@ -49,6 +53,11 @@ kotlin {
             implementation(libs.kotlinx.date.time)
 
             implementation(libs.lifecycle.viewmodel.compose)
+            implementation(libs.runtime)
+        }
+
+        iosMain.dependencies {
+            implementation(libs.native.driver)
         }
     }
 }

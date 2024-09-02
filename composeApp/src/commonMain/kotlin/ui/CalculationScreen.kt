@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.rounded.Edit
@@ -19,6 +20,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import ui.components.OcMealText
 import ui.components.OcTimeText
 import ui.components.ocDateText
@@ -31,34 +34,38 @@ import ui.pickers.OcTimePicker
 @Composable
 fun CalculationScreen(calculationViewModel: CalculationViewModel) {
     val calculationUiState by calculationViewModel.uiState.collectAsState()
-    var datePickerState = rememberDatePickerState()
+    val datePickerState = rememberDatePickerState()
     val checkInTimePickerState = rememberTimePickerState()
     val checkOutTimePickerState = rememberTimePickerState()
 
-    val rowArrangement =  Arrangement.SpaceEvenly
-
-    Row (
-//        modifier = Modifier.fillMaxWidth()
-    ){
+    Row {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
 
+            val textModifier = Modifier.padding(12.dp)
+
             //DatePicker starts
-            ocDateText(selectedDate = calculationUiState.ocDate)
+            ocDateText(
+                selectedDate = calculationUiState.ocDate,
+                modifier = textModifier
+            )
 
             // 上班時間
             OcTimeText(
                 title = "上班時間：",
-                hourAndMinute = HourAndMinute(hour = calculationUiState.checkInTime.hour, minute = calculationUiState.checkInTime.minute)
+                hourAndMinute = HourAndMinute(hour = calculationUiState.checkInTime.hour, minute = calculationUiState.checkInTime.minute),
+                modifier = textModifier
             )
             // 下班時間
             OcTimeText(
                 title = "下班時間：",
-                hourAndMinute = HourAndMinute(hour = calculationUiState.checkOutTime.hour, minute = calculationUiState.checkOutTime.minute)
+                hourAndMinute = HourAndMinute(hour = calculationUiState.checkOutTime.hour, minute = calculationUiState.checkOutTime.minute),
+                modifier = textModifier
             )
 
             //餐數
             OcMealText(
-                mealCount = calculationUiState.mealCount
+                mealCount = calculationUiState.mealCount,
+                modifier = textModifier
             )
 
             Row(horizontalArrangement = Arrangement.SpaceEvenly) {
@@ -111,7 +118,7 @@ fun CalculationScreen(calculationViewModel: CalculationViewModel) {
                 OcTimePicker(
                     showTimePicker = calculationUiState.showCheckOutTimePicker,
                     cancelAction = {calculationViewModel.closeTimePicker()},
-                    confirmAction = {calculationViewModel.selectCheckOutTime(timePickerState = checkInTimePickerState)
+                    confirmAction = {calculationViewModel.selectCheckOutTime(timePickerState = checkOutTimePickerState)
                         calculationViewModel.closeTimePicker()},
                     dismissAction = {calculationViewModel.closeTimePicker()},
                     timePickerState = checkOutTimePickerState
