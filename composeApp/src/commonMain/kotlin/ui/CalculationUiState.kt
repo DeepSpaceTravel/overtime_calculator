@@ -12,7 +12,7 @@ data class CalculationUiState(
     val checkInTime: HourAndMinute = HourAndMinute(hour = 8, minute = 0),
     val checkOutTime: HourAndMinute = HourAndMinute(hour = 17, minute = 15),
     val mealCount: Byte = 0,
-    val multiplayer: Float = 1.5f,
+    val multiplier: Float = 1.5f,
     val showDatePicker: Boolean = false,
     val showCheckInTimePicker: Boolean = false,
     val showCheckOutTimePicker: Boolean = false,

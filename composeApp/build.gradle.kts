@@ -14,8 +14,7 @@ kotlin {
     androidTarget {
         @OptIn(ExperimentalKotlinGradlePluginApi::class)
         compilerOptions {
-            jvmTarget.set(JvmTarget.JVM_11)
-//            apiVersion.set(org.jetbrains.kotlin.gradle.dsl.KotlinVersion.KOTLIN_2_0) //Self added
+            jvmTarget.set(JvmTarget.JVM_17)
         }
 
     }
@@ -38,6 +37,7 @@ kotlin {
             implementation(libs.androidx.activity.compose)
             implementation(libs.androidx.splashscreen)
             implementation(libs.android.driver)
+            implementation(libs.koin.androidx.compose)
         }
 
         commonMain.dependencies {
@@ -54,6 +54,7 @@ kotlin {
 
             implementation(libs.lifecycle.viewmodel.compose)
             implementation(libs.runtime)
+            implementation(libs.koin.core)
         }
 
         iosMain.dependencies {
@@ -88,8 +89,9 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+
     }
     buildFeatures {
         compose = true
@@ -98,8 +100,12 @@ android {
         debugImplementation(compose.uiTooling)
     }
 }
-//dependencies {
-//    implementation(libs.androidx.foundation.layout.android)
-//    implementation(libs.androidx.animation.android)
-//}
 
+//SQL-Delight Database
+sqldelight {
+    databases {
+        create("AppDatabase") {
+            packageName.set("org.example.project")
+        }
+    }
+}
